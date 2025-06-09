@@ -1,24 +1,46 @@
-<section class="flex flex-col md:flex-row lg:max-h-screen lg:w-[90%] lg:flex-col lg:justify-between">
-
-  <div>
-    <p class="mb-4">
-      I’m a developer passionate about crafting accessible, pixel-perfect user interfaces that blend thoughtful design with robust engineering...
-    </p>
-    <p class="mb-4">
-      Currently, I'm a Senior Front-End Engineer at
-      <a class="font-medium text-slate-200 hover:text-teal-300 focus-visible:text-teal-300" href="https://www.klaviyo.com/" target="_blank" rel="noreferrer noopener" aria-label="Klaviyo (opens in a new tab)">Klaviyo</a>...
-    </p>
-    <p class="mb-4">
-      In the past, I've had the opportunity to develop software across a variety of settings...
-    </p>
-    <p>
-      In my spare time, I’m usually climbing, reading, hanging out with my wife and two cats, or running around Hyrule searching for
-      <span class="group/korok inline-flex lg:cursor-[url('/images/koroks/Elma.png'),_pointer] lg:font-medium lg:text-slate-200">
-        <span class="sr-only">Korok seeds</span>
-        <span *ngFor="let char of korokChars; let i = index" class="group-hover/korok:text-{{ char.color }}-400 transition duration-75 group-hover/korok:-translate-y-px delay-{{ i * 25 + 50 }}ms" aria-hidden="true">
-          {{ char.letter }}
-        </span>
-      </span>.
-    </p>
-  </div>
-</section>
+<!-- HTML Template (e.g., my-component.component.html) -->
+<div class="container mx-auto min-h-screen px-4">
+  <section class="py-8 md:py-24">
+    <h1 class="text-4xl font-bold mb-10">All Projects</h1>
+    <div class="overflow-x-auto">
+      <table class="w-full table-auto">
+        <thead>
+        <tr class="text-left">
+          <th class="pb-4">Year</th>
+          <th class="pb-4">Project</th>
+          <th class="pb-4">Made at</th>
+          <th class="pb-4">Built with</th>
+          <th class="pb-4">Link</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let project of projects" class="border-t border-gray-700">
+          <td class="py-4">{{ project.year }}</td>
+          <td class="py-4">{{ project.project }}</td>
+          <td class="py-4">{{ project.madeAt }}</td>
+          <td class="py-4">
+            <div class="flex flex-wrap w-90">
+              <ng-container *ngFor="let tech of project.builtWith">
+                  <span class="inline-block text-sm px-2 py-1 rounded-full text-white mr-2 mb-2"
+                        [ngClass]="{
+                          'bg-green-600': tech === 'Next.js',
+                          'bg-blue-600': tech === 'TypeScript',
+                          'bg-pink-600': tech === 'SCSS',
+                          'bg-blue-400': tech === 'Contentful'
+                        }">
+                    {{ tech }}
+                  </span>
+              </ng-container>
+            </div>
+          </td>
+          <td class="py-4">
+            <a [href]="project.link" class="text-blue-400 underline" target="_blank" rel="noopener noreferrer">
+              {{ project.link }}
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

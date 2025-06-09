@@ -4,6 +4,12 @@
 @tailwind utilities;
 
 // existing styles (if any)
+
+:root {
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+}
+
 @media only screen and (min-width: 2000px) {
   .container {
     width: 70% !important;
@@ -32,4 +38,22 @@
 
 .mat-mdc-tab-body-content {
   overflow: hidden !important;
+}
+
+.background-fill {
+
+  background: radial-gradient(600px at var(--mouse-x) var(--mouse-y), rgba(29, 78, 216, 0.15), transparent 80%);
+}
+
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Adjust the RGBA value for transparency */
+}
+
+@layer utilities {
+  .transition-background {
+    transition: background 0.3s ease-in-out;
+  }
+}
+html {
+  scroll-behavior: smooth;
 }

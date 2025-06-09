@@ -1,37 +1,64 @@
 import { Component } from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {NgForOf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-nav',
   imports: [
     RouterLink,
-    NgForOf
+    NgForOf,
+    NgClass,
   ],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss'
 })
 export class NavComponent {
   navLinks = [
-    { href: '#about', text: 'About', active: false },
-    { href: '#experience', text: 'Experience', active: true },
-    { href: '#projects', text: 'Projects', active: false },
+    { href: '#about', text: 'About', active: true },
+    { href: '#experience', text: 'Experience', active: false },
+    { href: '#education', text: 'Education', active: false },
+    { href: 'projects', text: 'Project', active: false },
   ];
+
+
+  setActiveLink(selectedLink: any) {
+    this.navLinks.forEach(link => link.active = false); // reset all
+    selectedLink.active = true; // set clicked link as active
+  }
 
   socialLinks = [
     {
-      url: 'https://github.com/bchiang7',
+      url: 'https://github.com/sakibmahmood98',
       label: 'GitHub (opens in a new tab)',
       title: 'GitHub',
       viewBox: '0 0 16 16',
       pathD: 'M8 0C3.58 0 ... 8c0-4.42-3.58-8-8-8z',
+     // iconUrl: 'https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png',
+      iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iaC02IHctNiIgYXJpYS1oaWRkZW49InRydWUiPjxwYXRoIGQ9Ik04IDBDMy41OCAwIDAgMy41OCAwIDhjMCAzLjU0IDIuMjkgNi41MyA1LjQ3IDcuNTkuNC4wNy41NS0uMTcuNTUtLjM4IDAtLjE5LS4wMS0uODItLjAxLTEuNDktMi4wMS4zNy0yLjUzLS40OS0yLjY5LS45NC0uMDktLjIzLS40OC0uOTQtLjgyLTEuMTMtLjI4LS4xNS0uNjgtLjUyLS4wMS0uNTMuNjMtLjAxIDEuMDguNTggMS4yMy44Mi43MiAxLjIxIDEuODcuODcgMi4zMy42Ni4wNy0uNTIuMjgtLjg3LjUxLTEuMDctMS43OC0uMi0zLjY0LS44OS0zLjY0LTMuOTUgMC0uODcuMzEtMS41OS44Mi0yLjE1LS4wOC0uMi0uMzYtMS4wMi4wOC0yLjEyIDAgMCAuNjctLjIxIDIuMi44Mi42NC0uMTggMS4zMi0uMjcgMi0uMjcuNjggMCAxLjM2LjA5IDIgLjI3IDEuNTMtMS4wNCAyLjItLjgyIDIuMi0uODIuNDQgMS4xMS4xNiAxLjkyLjA4IDIuMTIuNTEuNTYgLjgyIDEuMjcuODIgMi4xNSAwIDMuMDctMS44NyAzLjc1LTMuNjUgMy45NS4yOS4yNS41NC43My41NCAxLjQ4IDAgMS4wNy0uMDEgMS45My0uMDEgMi4yIDAgLjIxLjE1LjQ2LjU1LjM4QTguMDEzIDguMDEzIDAgMDAxNiA4YzAtNC40Mi0zLjU4LTgtOC04eiI+PC9wYXRoPjwvc3ZnPg==',
     },
     {
-      url: 'https://www.linkedin.com/in/bchiang7/',
+      url: 'https://www.linkedin.com/in/sakib-seaum-357833168/',
       label: 'LinkedIn (opens in a new tab)',
       title: 'LinkedIn',
       viewBox: '0 0 24 24',
       pathD: 'M20.5 2h-17A1.5 ... 19h-3v-9h3zM6.5 8.25...',
+      iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjgwMHB4IiB3aWR0aD0iODAwcHgiIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHZpZXdCb3g9IjAgMCA1MDQuNCA1MDQuNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTM3Ny42LDAuMkgxMjYuNEM1Ni44LDAuMiwwLDU3LDAsMTI2LjZ2MjUxLjZjMCw2OS4yLDU2LjgsMTI2LDEyNi40LDEyNkgzNzhjNjkuNiwwLDEyNi40LTU2LjgsMTI2LjQtMTI2LjRWMTI2LjYgICAgQzUwNCw1Nyw0NDcuMiwwLjIsMzc3LjYsMC4yeiBNMTY4LDQwOC4ySDk2di0yMDhoNzJWNDA4LjJ6IE0xMzEuNiwxNjguMmMtMjAuNCwwLTM2LjgtMTYuNC0zNi44LTM2LjhjMC0yMC40LDE2LjQtMzYuOCwzNi44LTM2LjggICAgYzIwLjQsMCwzNi44LDE2LjQsMzYuOCwzNi44QzE2OCwxNTEuOCwxNTEuNiwxNjguMiwxMzEuNiwxNjguMnogTTQwOC40LDQwOC4ySDQwOGgtNjBWMzA3LjRjMC0yNC40LTMuMi01NS42LTM2LjQtNTUuNiAgICBjLTM0LDAtMzkuNiwyNi40LTM5LjYsNTR2MTAyLjRoLTYwdi0yMDhoNTZ2MjhoMS42YzguOC0xNiwyOS4yLTI4LjQsNjEuMi0yOC40YzY2LDAsNzcuNiwzOCw3Ny42LDk0LjRWNDA4LjJ6Ii8+Cgk8L2c+CjwvZz4KPC9zdmc+',
+    },
+    {
+      url: 'https://www.facebook.com/seaum.sakib.7/',
+      label: 'Facebook (opens in a new tab)',
+      title: 'Facebook',
+      viewBox: '0 0 24 24',
+      pathD: 'M20.5 2h-17A1.5 ... 19h-3v-9h3zM6.5 8.25...',
+      iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBmaWxsPSIjMDAwMDAwIiB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDk0IDk0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODksMEg1QzIuMjM5LDAsMCwyLjIzOSwwLDV2ODRjMCwyLjc2MSwyLjIzOSw1LDUsNWg4NGMyLjc2MiwwLDUtMi4yMzksNS01VjVDOTQsMi4yMzksOTEuNzYyLDAsODksMHogTTY2LjkzLDIxLjM2NCAgIGwtNy4yMjYsMC4wMDNjLTUuNjY0LDAtNi43NjEsMi42OTItNi43NjEsNi42NDN2OC43MTFoMTMuNTExTDY2LjQ1LDUwLjM2NUg1Mi45NDN2MzUuMDEySDM4Ljg1MlY1MC4zNjVIMjcuMDdWMzYuNzIxaDExLjc4MiAgIFYyNi42NTljMC0xMS42NzcsNy4xMzMtMTguMDM2LDE3LjU0OC0xOC4wMzZMNjYuOTMsOC42NFYyMS4zNjR6Ii8+CjwvZz4KPC9zdmc+',
+    },
+    {
+      url: 'https://www.instagram.com/_sea.um_so.what_/',
+      label: 'Instagram (opens in a new tab)',
+      title: 'Instagram',
+      viewBox: '0 0 24 24',
+      pathD: 'M20.5 2h-17A1.5 ... 19h-3v-9h3zM6.5 8.25...',
+      iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiMwMDAwMDAiIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDMyIDMyIiB2ZXJzaW9uPSIxLjEiPgo8dGl0bGU+aW5zdGFncmFtPC90aXRsZT4KPHBhdGggZD0iTTI1LjgwNSA3Ljk5NmMwIDAgMCAwLjAwMSAwIDAuMDAxIDAgMC45OTQtMC44MDYgMS43OTktMS43OTkgMS43OTlzLTEuNzk5LTAuODA2LTEuNzk5LTEuNzk5YzAtMC45OTQgMC44MDYtMS43OTkgMS43OTktMS43OTl2MGMwLjk5MyAwLjAwMSAxLjc5OCAwLjgwNSAxLjc5OSAxLjc5OHYwek0xNiAyMC45OTljLTIuNzYxIDAtNC45OTktMi4yMzgtNC45OTktNC45OTlzMi4yMzgtNC45OTkgNC45OTktNC45OTljMi43NjEgMCA0Ljk5OSAyLjIzOCA0Ljk5OSA0Ljk5OXYwYzAgMCAwIDAuMDAxIDAgMC4wMDEgMCAyLjc2LTIuMjM3IDQuOTk3LTQuOTk3IDQuOTk3LTAgMC0wLjAwMSAwLTAuMDAxIDBoMHpNMTYgOC4zYzAgMCAwIDAtMCAwLTQuMjUzIDAtNy43IDMuNDQ4LTcuNyA3LjdzMy40NDggNy43IDcuNyA3LjdjNC4yNTMgMCA3LjctMy40NDggNy43LTcuN3YwYzAtMCAwLTAgMC0wLjAwMSAwLTQuMjUyLTMuNDQ3LTcuNy03LjctNy43LTAgMC0wIDAtMC4wMDEgMGgwek0xNiAzLjcwNGM0LjAwMyAwIDQuNDggMC4wMjAgNi4wNjEgMC4wODkgMS4wMDMgMC4wMTIgMS45NTcgMC4yMDIgMi44NCAwLjUzOGwtMC4wNTctMC4wMTljMS4zMTQgMC41MTIgMi4zMzQgMS41MzIgMi44MzUgMi44MTJsMC4wMTIgMC4wMzRjMC4zMTYgMC44MjYgMC41MDQgMS43ODEgMC41MTYgMi43NzhsMCAwLjAwNWMwLjA3MSAxLjU4MiAwLjA4NyAyLjA1NyAwLjA4NyA2LjA2MXMtMC4wMTkgNC40OC0wLjA5MiA2LjA2MWMtMC4wMTkgMS4wMDQtMC4yMSAxLjk1OC0wLjU0NSAyLjg0MWwwLjAxOS0wLjA1OGMtMC4yNTggMC42NzYtMC42NCAxLjI1Mi0xLjEyMyAxLjcyNmwtMC4wMDEgMC4wMDFjLTAuNDczIDAuNDg0LTEuMDQ5IDAuODY2LTEuNjkyIDEuMTA5bC0wLjAzMiAwLjAxMWMtMC44MjkgMC4zMTYtMS43ODcgMC41MDQtMi43ODggMC41MTZsLTAuMDA1IDBjLTEuNTkyIDAuMDcxLTIuMDYxIDAuMDg3LTYuMDcyIDAuMDg3LTQuMDEzIDAtNC40ODEtMC4wMTktNi4wNzItMC4wOTItMS4wMDgtMC4wMTktMS45NjYtMC4yMS0yLjg1My0wLjU0NWwwLjA1OSAwLjAxOWMtMC42NzYtMC4yNTQtMS4yNTItMC42MzctMS43MjItMS4xMjJsLTAuMDAxLTAuMDAxYy0wLjQ4OS0wLjQ3LTAuODczLTEuMDQ3LTEuMTE0LTEuNjkzbC0wLjAxMC0wLjAzMWMtMC4zMTUtMC44MjgtMC41MDYtMS43ODUtMC41MjUtMi43ODVsLTAtMC4wMDhjLTAuMDU2LTEuNTc1LTAuMDc2LTIuMDYxLTAuMDc2LTYuMDUzIDAtMy45OTQgMC4wMjAtNC40ODEgMC4wNzYtNi4wNzUgMC4wMTktMS4wMDcgMC4yMDktMS45NjQgMC41NDQtMi44NWwtMC4wMTkgMC4wNTljMC4yNDctMC42NzkgMC42MzItMS4yNTcgMS4xMjMtMS43MjRsMC4wMDItMC4wMDJjMC40NjgtMC40OTIgMS4wNDUtMC44NzUgMS42OTItMS4xMTJsMC4wMzEtMC4wMTBjMC44MjMtMC4zMTggMS43NzQtMC41MDkgMi43NjgtMC41MjZsMC4wMDctMGMxLjU5My0wLjA1NiAyLjA2Mi0wLjA3NSA2LjA3Mi0wLjA3NXpNMTYgMS4wMDRjLTQuMDc0IDAtNC41ODIgMC4wMTktNi4xODIgMC4wOTAtMS4zMTUgMC4wMjgtMi41NjIgMC4yODItMy43MTYgMC43MjNsMC4wNzYtMC4wMjVjLTEuMDQwIDAuMzk3LTEuOTI2IDAuOTg2LTIuNjU2IDEuNzI4bC0wLjAwMSAwLjAwMWMtMC43NDUgMC43My0xLjMzMyAxLjYxNy0xLjcxMyAyLjYwN2wtMC4wMTcgMC4wNTBjLTAuNDE2IDEuMDc4LTAuNjcgMi4zMjYtMC42OTcgMy42MjhsLTAgMC4wMTJjLTAuMDc1IDEuNi0wLjA5MCAyLjEwOC0wLjA5MCA2LjE4MnMwLjAxOSA0LjU4MiAwLjA5MCA2LjE4MmMwLjAyOCAxLjMxNSAwLjI4MiAyLjU2MiAwLjcyMyAzLjcxNmwtMC4wMjUtMC4wNzZjMC43OTYgMi4wMjEgMi4zNjUgMy41OSA0LjMzNCA0LjM2OGwwLjA1MiAwLjAxOGMxLjA3OCAwLjQxNSAyLjMyNiAwLjY2OSAzLjYyOCAwLjY5N2wwLjAxMiAwYzEuNiAwLjA3NSAyLjEwOCAwLjA5MCA2LjE4MiAwLjA5MHM0LjU4Mi0wLjAxOSA2LjE4Mi0wLjA5MGMxLjMxNS0wLjAyOSAyLjU2Mi0wLjI4MiAzLjcxNi0wLjcyM2wtMC4wNzYgMC4wMjZjMi4wMjEtMC43OTYgMy41OS0yLjM2NSA0LjM2OC00LjMzNGwwLjAxOC0wLjA1MmMwLjQxNi0xLjA3OCAwLjY2OS0yLjMyNiAwLjY5Ny0zLjYyOGwwLTAuMDEyYzAuMDc1LTEuNiAwLjA5MC0yLjEwOCAwLjA5MC02LjE4MnMtMC4wMTktNC41ODItMC4wOTAtNi4xODJjLTAuMDI5LTEuMzE1LTAuMjgyLTIuNTYyLTAuNzIzLTMuNzE2bDAuMDI2IDAuMDc2Yy0wLjM5OC0xLjA0MC0wLjk4Ni0xLjkyNi0xLjcyOS0yLjY1NmwtMC4wMDEtMC4wMDFjLTAuNzMtMC43NDUtMS42MTctMS4zMzMtMi42MDctMS43MTNsLTAuMDUwLTAuMDE3Yy0xLjA3OC0wLjQxNi0yLjMyNi0wLjY3LTMuNjI4LTAuNjk3bC0wLjAxMi0wYy0xLjYtMC4wNzUtMi4xMDgtMC4wOTAtNi4xODItMC4wOTB6Ii8+Cjwvc3ZnPg==',
     },
     // More social links...
   ];

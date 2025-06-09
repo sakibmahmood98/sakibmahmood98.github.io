@@ -1,11 +1,26 @@
 <div class="container mx-auto flex flex-col md:flex-row lg:flex-row">
+
   <!-- Sidebar Navigation -->
   <nav class="w-full px-4 md:w-2/3 lg:w-2/4 lg:sticky lg:top-0 lg:h-screen flex flex-col md:py-24 lg:justify-between">
     <app-nav></app-nav>
   </nav>
 
   <!-- Main Content Area -->
-  <main class="w-full md:w-2/3 lg:w-3/5 md:py-24 px-4">
-    <app-projects></app-projects>
+  <main id="about" class="w-full md:w-2/3 lg:w-3/5 md:py-24 px-4">
+
+    <app-about></app-about>
+
+    <!-- Main Content Area -->
+    <div class="mt-4">
+
+      <app-experience></app-experience>
+    </div>
+
+    <app-education></app-education>
+
+    <app-footer></app-footer>
+
   </main>
+
 </div>
+<img src="assets/seaum.jpg" alt="Description of image" class="lg:w-screen lg:h-screen w-full h-auto object-cover">

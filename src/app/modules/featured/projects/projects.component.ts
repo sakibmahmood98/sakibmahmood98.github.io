@@ -1,29 +1,26 @@
 import {Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
-import {NgForOf} from '@angular/common';
+import {NgClass, NgForOf} from '@angular/common';
 
 @Component({
   selector: 'app-projects',
+  templateUrl: './projects.component.html',
   imports: [
+    NgClass,
     NgForOf
   ],
-  templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent {
   private readonly router = inject(Router);
-
-  korokChars = [
-    { letter: 'K', color: 'red' },
-    { letter: 'o', color: 'orange' },
-    { letter: 'r', color: 'yellow' },
-    { letter: 'o', color: 'lime' },
-    { letter: 'k', color: 'green' },
-    { letter: '',  color: 'teal' },
-    { letter: 's', color: 'cyan' },
-    { letter: 'e', color: 'sky' },
-    { letter: 'e', color: 'blue' },
-    { letter: 'd', color: 'indigo' },
-    { letter: 's', color: 'violet' },
-  ];
+  projects = [
+    {
+      year: 0,
+      project: '',
+      madeAt: '',
+      builtWith: [],
+      link: ''
+    },
+    // Add more projects as needed
+  ]
 }

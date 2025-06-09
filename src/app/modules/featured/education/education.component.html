@@ -1,0 +1,19 @@
+<section id="education">
+  <div *ngFor="let job of jobs" class="hover:bg-cyan-800/10 p-6 rounded-lg hover:shadow-lg hover:cursor-pointer">
+    <div class="flex justify-between mb-4">
+      <span class="text-sm text-gray-400 w-[17%] mt-2">
+        <img src=" {{ job.logoUrl }}"  alt="Company Logo" class="h-18 w-18" height=300 width=294 />
+      </span>
+      <div class="w-[83%]">
+        <a href="#" class="text-blue-400">{{ job.position }}</a>
+        <p class="mt-2 flex space-x-2">{{ job.startYear }} - {{ job.endYear }}</p>
+        <div class="flex space-x-2">
+          <p class="mb-4">{{ job.description }}</p>
+<!--          <ng-container *ngFor="let skill of job.skills">-->
+<!--            <span class="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">{{ skill }}</span>-->
+<!--          </ng-container>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

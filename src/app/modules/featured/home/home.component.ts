@@ -1,16 +1,21 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import {ProjectsComponent} from '../projects/projects.component';
 import {NavComponent} from '../nav/nav.component';
-import {NgIf} from '@angular/common';
+import {ExperienceComponent} from '../experience/experience.component';
+import {AboutComponent} from '../about/about.component';
+import {EducationComponent} from '../education/education.component';
+import {FooterComponent} from '../footer/footer.component';
 
 @Component({
   selector: 'app-home',
   imports: [
     FormsModule,
     NavComponent,
-    ProjectsComponent,
+    ExperienceComponent,
+    AboutComponent,
+    EducationComponent,
+    FooterComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -26,7 +31,6 @@ export class HomeComponent implements OnInit {
       this.loading = false;  // Set loading to false after data is "loaded"
     }, 2000);  // Adjust the time as necessary
   }
-
   contactForm = {
     name: '',
     email: '',

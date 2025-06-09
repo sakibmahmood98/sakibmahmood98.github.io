@@ -1,0 +1,88 @@
+<!--<section id="experience">-->
+<!--  <div *ngFor="let job of jobs" class="hover:bg-cyan-800/10 p-6 rounded-lg hover:shadow-lg hover:cursor-pointer ">-->
+<!--    <div class="flex justify-between mb-4">-->
+<!--      <span class="text-sm text-gray-400 w-[17%]">{{ job.startYear }} — {{ job.endYear }}</span>-->
+<!--      <div class="w-[83%]">-->
+<!--        <a href="#" class="text-blue-400">{{ job.position }}</a>-->
+<!--        <p class="mb-4">{{ job.description }}</p>-->
+<!--        <div class="flex space-x-2">-->
+<!--          <ng-container *ngFor="let skill of job.skills">-->
+<!--            <span class="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">{{ skill }}</span>-->
+<!--          </ng-container>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+<!--<section id="experience" class="space-y-6 mb-10 mt-10 " >-->
+<!--  <div *ngFor="let exp of experiences" class="hover:bg-cyan-800/10 p-6 rounded-lg hover:shadow-lg hover:cursor-pointer">-->
+<!--  <div class="flex items-start"  >-->
+<!--    <img [src]="exp.logo" alt="Company Logo" class="w-10 h-10 mr-4 mb-4">-->
+<!--    <div>-->
+<!--      <h2 class="text-white font-bold">{{ exp.company }}</h2>-->
+<!--      <p class="text-gray-400 text-sm">{{ exp.type }} &middot; {{ exp.duration }}</p>-->
+<!--    </div>-->
+<!--  </div>-->
+
+
+<!--    <div class="ml-3 space-y-6">-->
+<!--      <div class="flex items-center relative" *ngFor="let role of exp.roles; let last = last">-->
+<!--        <div-->
+<!--          *ngIf="!last"-->
+<!--          class="absolute h-full border-l-2 border-gray-700 left-[0.33rem] top-8 "-->
+<!--        ></div>-->
+<!--        <span class="w-3 h-3 bg-gray-500 rounded-full mr-2"></span>-->
+<!--        <div class="px-6">-->
+<!--          <h3 class="font-bold text-white">{{ role.title }}</h3>-->
+<!--          <p class="text-gray-400 text-sm">{{ role.duration }} &middot; {{ role.months }}</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--</section>-->
+
+<section id="experience" class="space-y-6 mb-10 mt-10 max-w-4xl mx-auto">
+  <div
+    *ngFor="let exp of experiences"
+    class="hover:bg-cyan-800/10 p-4 sm:p-6 rounded-lg hover:shadow-lg hover:cursor-pointer"
+  >
+    <!-- Company Header -->
+    <div class="flex items-start flex-wrap sm:flex-nowrap">
+      <img
+        [src]="exp.logo"
+        alt="Company Logo"
+        class="w-10 h-10 mr-4 mb-4 sm:mb-0"
+      />
+      <div>
+        <h2 class="text-white font-semibold text-lg sm:text-xl">{{ exp.company }}</h2>
+        <p class="text-gray-400 text-sm sm:text-base">{{ exp.type }} &middot; {{ exp.duration }}</p>
+      </div>
+    </div>
+
+    <!-- Roles Timeline -->
+    <div class="ml-3 space-y-6 mt-6">
+      <div
+        class="flex items-start relative"
+        *ngFor="let role of exp.roles; let last = last"
+      >
+        <!-- Vertical Bar -->
+        <div
+          *ngIf="!last"
+          class="absolute h-full border-l-2 border-gray-700 left-[0.31rem] top-[1.3rem]"
+        ></div>
+
+        <!-- Timeline Dot -->
+        <span class="w-3 h-3 bg-gray-500 rounded-full mr-3 mt-1 z-10"></span>
+
+        <!-- Role Details -->
+        <div class="px-2 sm:px-4">
+          <h3 class="font-bold text-white text-sm sm:text-base">{{ role.title }}</h3>
+          <p class="text-gray-400 text-xs sm:text-sm">
+            {{ role.duration }} &middot; {{ role.months }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
