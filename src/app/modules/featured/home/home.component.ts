@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   private readonly router = inject(Router);
 
   loading: boolean = true;
-
+  email = "sakibmahmood@gmail.com"
   ngOnInit() {
     // Simulate API call with setTimeout
     setTimeout(() => {
