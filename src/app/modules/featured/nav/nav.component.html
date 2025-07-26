@@ -1,14 +1,31 @@
-<section class="flex flex-col lg:sticky lg:top-0 lg:max-h-screen lg:w-[75%] md:w-[70%] lg:flex-col lg:justify-between ">
+<section class="flex flex-col lg:sticky lg:top-0 lg:max-h-screen w-full lg:w-[75%] md:w-[70%] lg:flex-col lg:justify-between">
   <div>
-    <h1 class="text-4xl font-bold tracking-tight text-lightest-slate sm:text-5xl">
+    <h1 class="text-slate-200 text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-lightest-slate">
       <a [routerLink]="['/']">Sakib Mahmood Seaum</a>
     </h1>
-    <h2 class="mt-3 text-lg font-medium tracking-tight text-black-200 sm:text-xl">
+    <h2 class="text-slate-200 mt-3 text-base sm:text-lg md:text-lg lg:text-lg xl:text-xl font-medium tracking-tight text-black-200">
       Senior Software Engineer I
     </h2>
-    <p class="mt-4 max-w-xs leading-normal">
+    <p class="mt-4 max-w-xs sm:max-w-sm md:max-w-md leading-normal text-sm sm:text-base">
       Problem solver in code, still debugging life :P
     </p>
+
+    <!-- Mobile Navigation -->
+    <nav class="block md:hidden mt-8" aria-label="Mobile navigation">
+      <ul class="flex flex-wrap gap-4">
+        <li *ngFor="let link of navLinks">
+          <a [href]="link.href"
+             (click)="setActiveLink(link)"
+             class="text-xs font-medium uppercase tracking-wider text-slate-400 hover:text-slate-200 transition-colors duration-200"
+             [ngClass]="{ 'text-slate-200': link.active }">
+            {{ link.text }}
+          </a>
+        </li>
+      </ul>
+
+    </nav>
+
+    <!-- Desktop Navigation -->
     <nav class="hidden md:block lg:block" aria-label="In-page jump links">
       <ul class="mt-16 w-max">
         <li *ngFor="let link of navLinks">
@@ -24,19 +41,19 @@
       </ul>
     </nav>
   </div>
-  <!-- ... existing code ... -->
+  <!-- ... existing okay code ... -->
 
-  <ul class="ml-1 mt-8 flex items-center" aria-label="Social media">
-    <li *ngFor="let social of socialLinks" class="mr-5 shrink-0 text-xs">
+  <ul class="ml-1 mt-4 md:mt-8 flex flex-wrap items-center gap-4 sm:gap-5" aria-label="Social media">
+    <li *ngFor="let social of socialLinks" class="shrink-0 text-xs">
       <a class="block hover:text-slate-200" [href]="social.url" target="_blank" rel="noreferrer noopener"
          [attr.aria-label]="social.label" [title]="social.title">
 
         <span class="sr-only">{{ social.label }}</span>
 
-        <svg [attr.viewBox]="social.viewBox" fill="white" class="h-6 w-6" aria-hidden="true">
+        <svg [attr.viewBox]="social.viewBox" fill="white" class="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true">
           <path [attr.d]="social.pathD"></path>
         </svg>
-        <img [src]="social.iconUrl" alt="" class="ml-2 h-6 w-6 icon ">
+        <img [src]="social.iconUrl" alt="" class="ml-2 h-5 w-5 sm:h-6 sm:w-6 icon ">
       </a>
     </li>
   </ul>

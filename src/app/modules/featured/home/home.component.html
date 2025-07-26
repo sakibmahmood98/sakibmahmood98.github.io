@@ -1,7 +1,7 @@
 <div class="container mx-auto flex flex-col md:flex-row lg:flex-row">
 
   <!-- Sidebar Navigation -->
-  <nav class="w-full px-4 md:w-2/3 lg:w-2/4 lg:sticky lg:top-0 lg:h-screen flex flex-col md:py-24 lg:justify-between">
+  <nav class="w-full px-4 pt-12 pb-8 md:w-2/3 lg:w-2/4 lg:sticky lg:top-0 lg:h-screen flex flex-col md:py-24 lg:justify-between">
     <app-nav></app-nav>
   </nav>
 
@@ -11,7 +11,7 @@
     <app-about></app-about>
 
     <!-- Main Content Area -->
-    <div class="mt-4">
+    <div class="lg:mt-4">
 
       <app-experience></app-experience>
     </div>
@@ -21,11 +21,11 @@
     <app-footer></app-footer>
   </main>
 
-  <div class="hidden md:flex md:fixed sticky md:bottom-0 md:right-14 md:h-22 md:w-0.5 bg-slate-200 items-center justify-center">
-    <a href="mailto:{{ email }}" class="transform rotate-90 text-lg font-mono mb-80 hover:cursor-pointer">
+  <div class="hidden lg:flex lg:fixed lg:bottom-0 lg:right-8 xl:right-14 lg:h-22 lg:w-0.5 bg-slate-200 items-center justify-center">
+    <a href="mailto:{{ email }}" class="transform rotate-90 text-sm lg:text-lg font-mono mb-80 hover:cursor-pointer">
       {{ email }}
     </a>
   </div>
 
 </div>
-<img src="assets/seaum.jpg" alt="Description of image" class="lg:w-screen lg:h-screen w-full h-auto object-cover">
+<img src="assets/seaum.jpg" alt="Description of image" class="w-full h-auto object-cover lg:w-screen lg:h-screen">
