@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import {NgForOf} from "@angular/common";
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-education',
     imports: [
-        NgForOf
+        NgForOf,
+        RouterLink
     ],
   templateUrl: './education.component.html',
   styleUrl: './education.component.scss'

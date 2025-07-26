@@ -8,6 +8,7 @@ import {NgClass, NgForOf, NgIf} from '@angular/common';
     RouterLink,
     NgForOf,
     NgClass,
+    NgIf,
   ],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss'
@@ -17,7 +18,7 @@ export class NavComponent {
     { href: '#about', text: 'About', active: true },
     { href: '#experience', text: 'Experience', active: false },
     { href: '#education', text: 'Education', active: false },
-    { href: 'projects', text: 'Project', active: false },
+    { href: '/projects', text: 'Project', active: false, isRoute: true },
   ];
 
 
