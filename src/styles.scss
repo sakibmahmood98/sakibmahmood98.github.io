@@ -1,0 +1,99 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// existing styles (if any)
+
+//:root {
+//  --mouse-x: 0px;
+//  --mouse-y: 0px;
+//}
+
+@media only screen and (min-width: 2000px) {
+  .container {
+    width: 70% !important;
+    max-width: 1400px !important;
+  }
+}
+
+@media only screen and (min-width: 1281px) and (max-width: 1999px) {
+  .container {
+    width: 75% !important;
+    max-width: 1200px !important;
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1280px) {
+  .container {
+    width: 85% !important;
+    max-width: 1000px !important;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .container {
+    width: 90% !important;
+    padding: 1.5rem 1rem !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .container {
+    width: 95% !important;
+    padding: 1.25rem 0.75rem !important;
+  }
+}
+
+
+.mat-mdc-tab-body-content {
+  overflow: hidden !important;
+}
+
+.background-fill {
+
+  background: radial-gradient(600px at var(--mouse-x) var(--mouse-y), rgba(29, 78, 216, 0.15), transparent 80%);
+}
+
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Adjust the RGBA value for transparency */
+}
+
+@layer utilities {
+  .transition-background {
+    transition: background 0.3s ease-in-out;
+  }
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* Additional responsive utilities */
+@media (max-width: 640px) {
+  /* Ensure text doesn't break layout on very small screens */
+  h1, h2, h3, h4, h5, h6 {
+    word-break: break-word;
+    hyphens: auto;
+  }
+
+  /* Better touch targets for mobile */
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Ensure images don't overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Ensure proper spacing on all screen sizes */
+@media (max-width: 480px) {
+  .container {
+    padding-top: 1rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
