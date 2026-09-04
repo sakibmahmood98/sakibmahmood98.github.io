@@ -21,6 +21,49 @@ export class ProjectsComponent {
   
   projects = [
     {
+      year: 2026,
+      project: 'SalesEdge AI - Real-Time Sales Copilot for IT Service Sales Teams',
+      madeAt: 'Brain Station 23',
+      builtWith: ['Electron', 'React', 'TypeScript', 'Django', 'Django REST Framework', 'Django Channels', 'PostgreSQL', 'Redis', 'Celery', 'Qdrant', 'LangChain', 'AWS Transcribe', 'AWS Bedrock', 'Docker'],
+      description: `Developed an intelligent, real-time desktop application that listens to live sales calls locally, transcribes conversation in real time, and surfaces domain-specific guidance to help sales reps sell more effectively. Key features included:
+      <ul class="list-disc list-inside mt-2 space-y-1">
+        <li>Local, bot-free live call listening and real-time transcription during sales meetings</li>
+        <li>Real-time conversational intelligence, including live suggestions and talking points surfaced during the call</li>
+        <li>Knowledge retrieval and suggestion engine that grounds in-call guidance in a company knowledge base</li>
+        <li>Post-meeting AI processing: automatic summaries, action item extraction, and follow-up draft generation</li>
+        <li>Meeting lifecycle management, from scheduling/joining through live capture to post-meeting artifacts</li>
+        <li>Contact and company management to link meetings, transcripts, and summaries to CRM-style entities</li>
+        <li>Bookmarking and search across meetings, transcripts, and summaries for quick recall</li>
+        <li>Notifications to keep sales reps and teams informed of meeting outcomes and action items</li>
+        <li>Analytics and scoring to evaluate call/conversation quality and surface coaching insights</li>
+        <li>Desktop app experience (Electron + React) with a system tray presence for persistent background operation</li>
+      </ul>
+      <p class="mt-2">Enabled sales teams to focus on the conversation while AI handled real-time guidance, note-taking, and follow-up, improving deal-relevant response quality and reducing manual post-call admin work.</p>`
+    },
+    {
+      year: 2026,
+      project: 'Logistiq - Offshore Supply Chain & Logistics Management Platform',
+      madeAt: 'Brain Station 23',
+      builtWith: ['.NET 10', 'Angular', 'TypeScript', 'Azure', 'SQL Server', 'Redis Cache', 'Azure Service Bus', 'Azure Kubernetes Service (AKS)', 'Mapbox', 'NgRx'],
+      description: `Developed a comprehensive end-to-end logistics platform for planning, tracking, and executing the movement of equipment, materials, and containers between onshore supply bases and offshore rigs/vessels. Key features included:
+      <ul class="list-disc list-inside mt-2 space-y-1">
+        <li>Real-time tracking (TraQ) of shipments, containers, and assets on an interactive map with list and reporting views</li>
+        <li>Project and package management, including project dashboards and package-level planning</li>
+        <li>Goods receipt processing, from receiving to inventory intake, with supply base and container-type context</li>
+        <li>Voyage planning and route/journey management for vessel-based transport between supply bases and offshore locations</li>
+        <li>Equipment operations scheduling with rig-based date planning and bulk scheduling actions</li>
+        <li>Packing workflows shared across supply-base and offshore contexts, with staged packing state management</li>
+        <li>Manifestation for building and managing manifests across supply-base and offshore operations</li>
+        <li>Receive-manifest workflows for both supply-base and offshore destinations, with detail-level manifest processing</li>
+        <li>Inventory management for supply-base and offshore locations, including offshore consumption tracking</li>
+        <li>Backload planning and execution for returning equipment/materials from offshore back to supply base</li>
+        <li>Time Planner module for building recursive, hierarchical operation/activity schedules with planning and operational modes, including a plan selector, schedule cascade, and file attachments</li>
+        <li>Epiq module for package and activity-level assembly views, batch item handling, and activity grids, delivered with a Figma-spec UI redesign</li>
+        <li>Settings and administration for vessels, rigs, supply bases, helicopters, and user access control</li>
+      </ul>
+      <p class="mt-2">Enabled streamlined coordination of offshore logistics operations, reducing manual tracking overhead and improving visibility across the full onshore-to-offshore supply chain.</p>`
+    },
+    {
       year: 2025,
       project: 'RVL-ETP – eTicket Platform for Major Sporting Events',
       madeAt: 'Brain Station 23',
