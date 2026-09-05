@@ -1,81 +1,47 @@
-<section class="flex flex-col lg:sticky lg:top-0 lg:max-h-screen w-full lg:w-[75%] md:w-[70%] lg:flex-col lg:justify-between">
-  <div>
-    <h1 class="text-slate-200 text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-lightest-slate">
-      <a [routerLink]="['/']">Sakib Mahmood Seaum</a>
-    </h1>
-    <h2 class="text-slate-200 mt-3 text-base sm:text-lg md:text-lg lg:text-lg xl:text-xl font-medium tracking-tight text-black-200">
-      Senior Software Engineer I
-    </h2>
-    <p class="mt-4 max-w-xs sm:max-w-sm md:max-w-md leading-normal text-sm sm:text-base">
-      Problem solver in code, still debugging life :P
-    </p>
+<header class="sticky top-0 z-50 backdrop-blur-xl border-b border-subtle" style="background-color: var(--bg-glass);">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16 sm:h-[4.5rem]">
 
-    <!-- Mobile Navigation -->
-    <nav class="block md:hidden mt-8" aria-label="Mobile navigation">
-      <ul class="flex flex-wrap gap-4">
-        <li *ngFor="let link of navLinks">
-          <a *ngIf="!link.isRoute; else routerLinkTemplate"
-             [href]="link.href"
-             (click)="setActiveLink(link)"
-             class="text-xs font-medium uppercase tracking-wider text-slate-400 hover:text-slate-200 transition-colors duration-200"
-             [ngClass]="{ 'text-slate-200': link.active }">
-            {{ link.text }}
-          </a>
-          <ng-template #routerLinkTemplate>
-            <a [routerLink]="link.href"
-               (click)="setActiveLink(link)"
-               class="text-xs font-medium uppercase tracking-wider text-slate-400 hover:text-slate-200 transition-colors duration-200"
-               [ngClass]="{ 'text-slate-200': link.active }">
-              {{ link.text }}
-            </a>
-          </ng-template>
-        </li>
-      </ul>
-
-    </nav>
-
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:block lg:block" aria-label="In-page jump links">
-      <ul class="mt-16 w-max">
-        <li *ngFor="let link of navLinks">
-          <a *ngIf="!link.isRoute; else desktopRouterLinkTemplate"
-             [href]="link.href" 
-             (click)="setActiveLink(link)"
-             class="group flex items-center py-3" >
-            <span class="nav-indicator mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200 group-focus-visible:w-16 group-focus-visible:bg-slate-200 motion-reduce:transition-none"  [ngClass]="{ 'w-16 bg-slate-200 ': link.active }" ></span>
-
-            <span class="nav-text text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-slate-200 group-focus-visible:text-slate-200" [ngClass]="{ 'text-slate-100 ': link.active }" >
-              {{ link.text }}
-            </span>
-          </a>
-          <ng-template #desktopRouterLinkTemplate>
-            <a [routerLink]="link.href"
-               (click)="setActiveLink(link)"
-               class="group flex items-center py-3" >
-              <span class="nav-indicator mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200 group-focus-visible:w-16 group-focus-visible:bg-slate-200 motion-reduce:transition-none"  [ngClass]="{ 'w-16 bg-slate-200 ': link.active }" ></span>
-
-              <span class="nav-text text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-slate-200 group-focus-visible:text-slate-200" [ngClass]="{ 'text-slate-100 ': link.active }" >
-                {{ link.text }}
-              </span>
-            </a>
-          </ng-template>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  <!-- ... existing okay code ... -->
-
-  <ul class="ml-1 mt-4 md:mt-8 flex flex-wrap items-center gap-4 sm:gap-5" aria-label="Social media">
-    <li *ngFor="let social of socialLinks" class="shrink-0 text-xs">
-      <a class="block hover:text-slate-200" [href]="social.url" target="_blank" rel="noreferrer noopener"
-         [attr.aria-label]="social.label" [title]="social.title">
-
-        <span class="sr-only">{{ social.label }}</span>
-
-        <img [src]="social.iconUrl" alt="" class="h-5 w-5 sm:h-6 sm:w-6 icon">
+      <!-- Wordmark -->
+      <a [routerLink]="['/']" (click)="scrollToTop()" class="focus-ring group flex items-center gap-2.5">
+        <span class="grid place-items-center h-8 w-8 rounded-lg font-heading font-bold text-sm bg-[var(--accent-soft)] text-accent border border-subtle">SM</span>
+        <span class="hidden sm:inline font-heading font-semibold text-sm text-primary">Sakib Mahmood</span>
       </a>
-    </li>
-  </ul>
 
-  <!-- ... rest of code ... -->
-</section>
+      <!-- Jump links -->
+      <nav class="hidden md:flex items-center gap-1" aria-label="In-page jump links">
+        <a *ngFor="let link of jumpLinks" [href]="link.href" (click)="goToSection(link.id, $event)"
+           class="focus-ring px-3 py-2 rounded-full text-sm font-medium text-secondary hover:text-primary hover:bg-elevated transition-colors duration-200">
+          {{ link.text }}
+        </a>
+        <a routerLink="/projects"
+           class="focus-ring px-3 py-2 rounded-full text-sm font-medium text-secondary hover:text-primary hover:bg-elevated transition-colors duration-200">
+          Archive
+        </a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button
+          type="button"
+          (click)="theme.toggle()"
+          class="focus-ring grid place-items-center h-9 w-9 rounded-full border border-subtle text-secondary hover:text-accent hover:border-subtle-strong transition-colors duration-200"
+          [attr.aria-label]="theme.isLight() ? 'Switch to dark theme' : 'Switch to light theme'"
+          [attr.title]="theme.isLight() ? 'Switch to dark theme' : 'Switch to light theme'">
+          <svg *ngIf="!theme.isLight()" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          </svg>
+          <svg *ngIf="theme.isLight()" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 3v1.5m0 15V21m9-9h-1.5M4.5 12H3m15.36 6.36l-1.06-1.06M6.7 6.7L5.64 5.64m12.72 0l-1.06 1.06M6.7 17.3l-1.06 1.06M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
+          </svg>
+        </button>
+
+        <a [href]="'mailto:' + email"
+           class="focus-ring inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-transform duration-200 hover:scale-105"
+           style="background-color: var(--accent); color: var(--bg);">
+          Say hi
+        </a>
+      </div>
+    </div>
+  </div>
+</header>

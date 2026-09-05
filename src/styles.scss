@@ -3,12 +3,54 @@
 @tailwind components;
 @tailwind utilities;
 
-// existing styles (if any)
+/* ==========================================================================
+   Theme tokens
+   Dark is the default (no class needed); `.light` on <html> overrides it.
+   Values are tuned for comfortable, low-glare reading rather than max contrast.
+   ========================================================================== */
+:root {
+  --bg: #0a0e16;
+  --bg-elevated: #10141d;
+  --surface: #131926;
+  --surface-hover: #182031;
+  --border: rgba(148, 163, 184, 0.12);
+  --border-strong: rgba(148, 163, 184, 0.24);
+  --text-primary: #e4e9f2;
+  --text-secondary: #99a4b8;
+  --text-muted: #66738a;
+  --accent: #2dd4bf;
+  --accent-rgb: 45, 212, 191;
+  --accent-2: #7dd3fc;
+  --accent-soft: rgba(45, 212, 191, 0.12);
+  --ring: rgba(45, 212, 191, 0.45);
+  --shadow-color: 0, 0, 0;
+  --dot-color: rgba(148, 163, 184, 0.18);
+  --bg-glass: rgba(9, 12, 19, 0.72);
 
-//:root {
-//  --mouse-x: 0px;
-//  --mouse-y: 0px;
-//}
+  color-scheme: dark;
+}
+
+html.light {
+  --bg: #f7f6f2;
+  --bg-elevated: #efede6;
+  --surface: #ffffff;
+  --surface-hover: #f6f4ee;
+  --border: rgba(30, 41, 59, 0.09);
+  --border-strong: rgba(30, 41, 59, 0.16);
+  --text-primary: #1c2330;
+  --text-secondary: #4b5768;
+  --text-muted: #7c8798;
+  --accent: #0d9488;
+  --accent-rgb: 13, 148, 136;
+  --accent-2: #0369a1;
+  --accent-soft: rgba(13, 148, 136, 0.1);
+  --ring: rgba(13, 148, 136, 0.35);
+  --shadow-color: 30, 41, 59;
+  --dot-color: rgba(30, 41, 59, 0.1);
+  --bg-glass: rgba(247, 246, 242, 0.75);
+
+  color-scheme: light;
+}
 
 @media only screen and (min-width: 2000px) {
   .container {
@@ -45,18 +87,8 @@
   }
 }
 
-
 .mat-mdc-tab-body-content {
   overflow: hidden !important;
-}
-
-.background-fill {
-
-  background: radial-gradient(600px at var(--mouse-x) var(--mouse-y), rgba(29, 78, 216, 0.15), transparent 80%);
-}
-
-.hover\:shadow-lg:hover {
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Adjust the RGBA value for transparency */
 }
 
 @layer utilities {
@@ -64,32 +96,297 @@
     transition: background 0.3s ease-in-out;
   }
 }
+
 html {
   scroll-behavior: smooth;
 }
 
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--text-primary);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Comfortable, deliberate transitions on theme-bearing surfaces only (not everything, for perf) */
+body,
+[class*="bg-"],
+[class*="text-"],
+[class*="border-"] {
+  transition-property: background-color, color, border-color, box-shadow;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--bg);
+}
+
+/* Slim, low-contrast scrollbar that stays out of the way */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+/* ==========================================================================
+   Semantic surface/text utilities, driven by the CSS variables above.
+   Prefer these over raw Tailwind slate/gray/blue utilities in templates.
+   ========================================================================== */
+@layer components {
+  .bg-base { background-color: var(--bg); }
+  .bg-elevated { background-color: var(--bg-elevated); }
+  .bg-surface { background-color: var(--surface); }
+  .bg-surface-hover:hover { background-color: var(--surface-hover); }
+
+  .text-primary { color: var(--text-primary); }
+  .text-secondary { color: var(--text-secondary); }
+  .text-muted { color: var(--text-muted); }
+  .text-accent { color: var(--accent); }
+
+  .border-subtle { border-color: var(--border); }
+  .border-subtle-strong { border-color: var(--border-strong); }
+
+  .font-heading { font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+  .font-mono-ui { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  .gradient-text {
+    background-image: linear-gradient(100deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .card-surface {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  }
+  .card-surface:hover {
+    border-color: var(--border-strong);
+    background-color: var(--surface-hover);
+    box-shadow: 0 20px 40px -24px rgba(var(--shadow-color), 0.45);
+  }
+
+  /* ------------------------------------------------------------------
+     Bento panel ("tile"): the primary building block of the dashboard
+     layout. Carries its own cursor-tracked spotlight glow, driven by
+     --spot-x/--spot-y (set by SpotlightDirective) and revealed on hover.
+     ------------------------------------------------------------------ */
+  .tile {
+    position: relative;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    isolation: isolate;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: border-color 0.25s ease, box-shadow 0.3s ease, transform 0.25s ease;
+  }
+  /* Clickable tiles (project cards) sit inside the drag-scroll strip, which sets
+     cursor: grab on itself - that inherits onto every child by default and makes
+     a link look draggable instead of clickable. Force pointer back on the link itself. */
+  a.tile,
+  button.tile {
+    cursor: pointer;
+  }
+  /* The Work strip's cards sit over a flat background (nothing worth blurring behind
+     them), and backdrop-filter here was intermittently showing a stray seam near the
+     top edge on first paint (a known Chromium backdrop-filter compositing glitch).
+     Dropping it removes the risk with no visual loss. */
+  #work .tile {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  /* The spotlight glow (::before) brightens whichever corner the cursor is near,
+     so the 1px border reads crisply against that lit patch but nearly disappears
+     against the still-dark rest of the edge - it looks like a stray line "cutting"
+     the top rather than a full outline. Give these cards a border strong enough to
+     read uniformly all the way around regardless of the glow underneath it. */
+  #work .tile:hover {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+  html.light #work .tile:hover {
+    border-color: rgba(30, 41, 59, 0.32);
+  }
+  .tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(480px circle at var(--spot-x, 50%) var(--spot-y, 50%), var(--accent-soft), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .tile:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 24px 48px -28px rgba(var(--shadow-color), 0.5);
+  }
+  .tile:hover::before {
+    opacity: 1;
+  }
+  a.tile:hover,
+  button.tile:hover {
+    transform: translateY(-2px);
+  }
+  /* On fractional-DPI displays, animating `transform` on a rounded, clipped,
+     isolated element promotes/demotes its GPU compositing layer mid-transition,
+     which can leave a persistent hairline seam a few px inside the top edge.
+     The Work cards don't need the lift - drop it there to remove the trigger. */
+  #work a.tile:hover {
+    transform: none;
+  }
+
+  .tile-highlight {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft), 0 24px 48px -28px rgba(var(--shadow-color), 0.5);
+  }
+
+  .panel-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .panel-label::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .status-dot {
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background-color: var(--accent);
+  }
+  .status-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 999px;
+    border: 1.5px solid var(--accent);
+    animation: statusPulse 2.2s ease-out infinite;
+  }
+  @keyframes statusPulse {
+    0% { transform: scale(0.6); opacity: 0.8; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+
+  .icon-mask {
+    -webkit-mask-image: var(--icon-url);
+    mask-image: var(--icon-url);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    background-color: currentColor;
+    transition: transform 0.2s ease;
+  }
+  a:hover .icon-mask {
+    transform: translateY(-2px);
+  }
+
+  .snap-x {
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .snap-start {
+    scroll-snap-align: start;
+  }
+
+  .drag-scroll {
+    cursor: grab;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* legacy Edge */
+  }
+  .drag-scroll::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  .drag-scroll.dragging {
+    cursor: grabbing;
+    scroll-behavior: auto; /* track the pointer 1:1, no easing, while actively dragging */
+    scroll-snap-type: none;
+    user-select: none;
+  }
+  .drag-scroll.dragging * {
+    pointer-events: none;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background-color: var(--bg-elevated);
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  .focus-ring:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ring);
+    border-radius: 0.5rem;
+  }
+
+  .section-heading-line {
+    background-color: var(--border-strong);
+  }
+}
+
 /* Additional responsive utilities */
 @media (max-width: 640px) {
-  /* Ensure text doesn't break layout on very small screens */
   h1, h2, h3, h4, h5, h6 {
     word-break: break-word;
     hyphens: auto;
   }
 
-  /* Better touch targets for mobile */
   a, button {
     min-height: 44px;
     min-width: 44px;
   }
 
-  /* Ensure images don't overflow */
   img {
     max-width: 100%;
     height: auto;
   }
 }
 
-/* Ensure proper spacing on all screen sizes */
 @media (max-width: 480px) {
   .container {
     padding-top: 1rem !important;
