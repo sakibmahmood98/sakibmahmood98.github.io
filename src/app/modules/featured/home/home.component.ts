@@ -1,52 +1,107 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormsModule} from '@angular/forms';
-import {NavComponent} from '../nav/nav.component';
-import {ExperienceComponent} from '../experience/experience.component';
-import {AboutComponent} from '../about/about.component';
-import {EducationComponent} from '../education/education.component';
-import {FooterComponent} from '../footer/footer.component';
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { NgForOf } from '@angular/common';
+import { NavComponent } from '../nav/nav.component';
+import { ExperienceComponent } from '../experience/experience.component';
+import { AboutComponent } from '../about/about.component';
+import { EducationComponent } from '../education/education.component';
+import { FooterComponent } from '../footer/footer.component';
+import { SpotlightDirective } from '../../../shared/spotlight.directive';
+import { DragScrollDirective } from '../../../shared/drag-scroll.directive';
+import { PROJECTS } from '../projects/projects.data';
+import { annotateExperienceDurations, earliestStartDate, EXPERIENCES } from '../experience/experience.data';
+import { EMAIL, SOCIAL_LINKS } from '../../../shared/social-links.data';
 
 @Component({
   selector: 'app-home',
   imports: [
-    FormsModule,
+    NgForOf,
+    RouterLink,
     NavComponent,
     ExperienceComponent,
     AboutComponent,
     EducationComponent,
     FooterComponent,
+    SpotlightDirective,
+    DragScrollDirective,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly router = inject(Router);
+  private clockHandle?: ReturnType<typeof setInterval>;
 
-  loading: boolean = true;
-  email = "sakibmahmood@gmail.com"
-  ngOnInit() {
-    // Simulate API call with setTimeout
-    setTimeout(() => {
-      this.loading = false;  // Set loading to false after data is "loaded"
-    }, 2000);  // Adjust the time as necessary
+  @ViewChild('workStrip') workStrip?: ElementRef<HTMLElement>;
+  canScrollWorkLeft = false;
+  canScrollWorkRight = false;
+
+  readonly email = EMAIL;
+  readonly socialLinks = SOCIAL_LINKS;
+  readonly allProjects = PROJECTS;
+  readonly projectCount = PROJECTS.length;
+  readonly focusAreas = ['.NET', 'Angular', 'Microservices', 'System Design', 'Competitive Programming'];
+  readonly domains = ['Sales enablement', 'Logistics', 'Ticketing', 'IoT', 'Generative AI'];
+
+  yearsOfExperience = '';
+  currentRole = { title: '', company: '', since: '' };
+  dhakaTime = '';
+
+  ngOnInit(): void {
+    annotateExperienceDurations(EXPERIENCES);
+
+    const start = earliestStartDate(EXPERIENCES);
+    const years = (Date.now() - start.getTime()) / (1000 * 60 * 60 * 24 * 365.25);
+    this.yearsOfExperience = `${Math.floor(years)}+`;
+
+    const current = EXPERIENCES
+      .flatMap(exp => exp.roles.map(role => ({ role, company: exp.company })))
+      .find(({ role }) => role.duration.toLowerCase().includes('present'));
+
+    if (current) {
+      this.currentRole = {
+        title: current.role.title,
+        company: current.company,
+        since: current.role.duration.split(' - ')[0],
+      };
+    }
+
+    this.updateClock();
+    this.clockHandle = setInterval(() => this.updateClock(), 30_000);
   }
-  contactForm = {
-    name: '',
-    email: '',
-    message: ''
-  };
 
-  sendMessage(event: Event) {
-    event.preventDefault();
-    // Here you can handle form submission, e.g., send the data to a server
-    console.log('Contact Form Data:', this.contactForm);
+  ngAfterViewInit(): void {
+    // Deferred a tick so the initial disabled-state update doesn't land in the
+    // same change-detection pass that just checked it (ExpressionChangedAfterItHasBeenCheckedError).
+    setTimeout(() => this.updateWorkScrollState());
+  }
 
-    // Optionally, reset the form
-    this.contactForm = {
-      name: '',
-      email: '',
-      message: ''
-    };
+  ngOnDestroy(): void {
+    if (this.clockHandle) {
+      clearInterval(this.clockHandle);
+    }
+  }
+
+  scrollWork(direction: 1 | -1): void {
+    const el = this.workStrip?.nativeElement;
+    if (!el) return;
+    const cardWidth = el.querySelector('a')?.clientWidth ?? el.clientWidth;
+    el.scrollBy({ left: direction * (cardWidth + 16), behavior: 'smooth' });
+  }
+
+  updateWorkScrollState(): void {
+    const el = this.workStrip?.nativeElement;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    this.canScrollWorkLeft = el.scrollLeft > 4;
+    this.canScrollWorkRight = el.scrollLeft < maxScroll - 4;
+  }
+
+  private updateClock(): void {
+    this.dhakaTime = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Dhaka',
+      hour: 'numeric',
+      minute: '2-digit',
+    }).format(new Date());
   }
 }

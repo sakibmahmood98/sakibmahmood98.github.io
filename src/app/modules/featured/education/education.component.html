@@ -1,37 +1,15 @@
-<section id="education" class="space-y-4 sm:space-y-6">
-  <div *ngFor="let job of jobs" class="hover:bg-cyan-800/10 p-4 sm:p-6 rounded-lg hover:shadow-lg hover:cursor-pointer">
-    <div class="flex flex-row mb-4 gap-4">
-      <span class="text-sm text-gray-400 w-[17%] flex justify-start items-start">
-        <img src="{{ job.logoUrl }}" alt="Company Logo" class="h-16 w-16 sm:h-18 sm:w-18 object-contain" />
-      </span>
-      <div class="w-[83%]">
-        <a href="#" class="text-blue-400 text-sm sm:text-base">{{ job.position }}</a>
-        <p class="mt-2 text-xs sm:text-sm text-gray-300">{{ job.startYear }} - {{ job.endYear }}</p>
-        <div class="">
-          <p class="text-xs sm:text-sm leading-relaxed">{{ job.description }}</p>
-<!--          <ng-container *ngFor="let skill of job.skills">-->
-<!--            <span class="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">{{ skill }}</span>-->
-<!--          </ng-container>-->
-        </div>
-      </div>
-    </div>
-  </div>
+<section id="education" class="scroll-mt-24">
+  <span class="panel-label">Education</span>
 
-  <!-- View Full Project Archive Link -->
-  <div class="mt-12 pt-8">
-    <a routerLink="/projects"
-       class="group inline-flex items-center gap-2 text-base font-medium text-slate-200 hover:text-blue-400 transition-colors duration-200">
-      View Full Project Archive
-      <svg xmlns="http://www.w3.org/2000/svg"
-           class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1"
-           fill="none"
-           viewBox="0 0 24 24"
-           stroke="currentColor">
-        <path stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M7 17L17 7M17 7H7M17 7V17" />
-      </svg>
-    </a>
+  <div appSpotlight class="tile mt-4 divide-y divide-[var(--border)]">
+    <div *ngFor="let job of jobs" class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 sm:p-6">
+      <img [src]="job.logoUrl" alt="{{ job.position }} logo"
+           class="h-14 w-14 rounded-xl object-contain bg-elevated border border-subtle p-1.5 shrink-0" />
+      <div class="min-w-0 flex-1">
+        <h3 class="text-primary font-heading font-semibold text-sm sm:text-base">{{ job.position }}</h3>
+        <p class="mt-1.5 text-xs sm:text-sm leading-relaxed text-secondary">{{ job.description }}</p>
+      </div>
+      <p class="shrink-0 text-xs sm:text-sm text-muted font-mono-ui whitespace-nowrap">{{ job.startYear }} &ndash; {{ job.endYear }}</p>
+    </div>
   </div>
 </section>

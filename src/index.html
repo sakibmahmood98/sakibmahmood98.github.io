@@ -20,6 +20,12 @@
   <meta name="twitter:description" content="Senior Software Engineer specializing in .NET, Angular and full-stack solutions.">
 
   <link rel="icon" type="image/x-icon" href="assets/ash_rick.png">
+  <meta name="theme-color" content="#0a0e16">
+
+  <!-- Fonts: Sora for display/headings, Inter for body copy -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RYBEZZ39YE"></script>
@@ -28,6 +34,18 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-RYBEZZ39YE');
+  </script>
+
+  <!-- Apply saved theme before first paint to avoid a flash -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        if (stored === 'light') {
+          document.documentElement.classList.add('light');
+        }
+      } catch (e) {}
+    })();
   </script>
 </head>
 <body>

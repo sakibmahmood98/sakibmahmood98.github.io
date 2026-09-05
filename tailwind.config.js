@@ -10,21 +10,21 @@ const config = {
   important: true,
   theme: {
     fontSize: {
-      'xs': '0.625rem',
-      'sm': '0.75rem',
-      'md': '0.8125rem',
-      'base': '0.875rem',
-      'lg': '1rem',
-      'xl': '1.125rem',
-      '2xl': '1.25rem',
-      '3xl': '1.5rem',
-      '4xl': '2rem',
-      '5xl': '2.25rem',
-      '6xl': '2.5rem',
-      '7xl': '3rem',
-      '8xl': '4rem',
-      '9xl': '6rem',
-      '10xl': '8rem'
+      'xs': ['0.75rem', { lineHeight: '1.5' }],
+      'sm': ['0.875rem', { lineHeight: '1.6' }],
+      'md': ['0.9375rem', { lineHeight: '1.6' }],
+      'base': ['1rem', { lineHeight: '1.7' }],
+      'lg': ['1.125rem', { lineHeight: '1.65' }],
+      'xl': ['1.25rem', { lineHeight: '1.6' }],
+      '2xl': ['1.5rem', { lineHeight: '1.5' }],
+      '3xl': ['1.875rem', { lineHeight: '1.35' }],
+      '4xl': ['2.25rem', { lineHeight: '1.25' }],
+      '5xl': ['2.75rem', { lineHeight: '1.2' }],
+      '6xl': ['3.25rem', { lineHeight: '1.15' }],
+      '7xl': ['3.75rem', { lineHeight: '1.1' }],
+      '8xl': ['4.5rem', { lineHeight: '1.05' }],
+      '9xl': ['6rem', { lineHeight: '1' }],
+      '10xl': ['8rem', { lineHeight: '1' }]
     },
     screens: {
       'sm': '600px',
@@ -55,15 +55,6 @@ const config = {
         '1': '1px'
       },
       colors: {
-        primary: {
-          DEFAULT: "#FFFFFF"
-        },
-        secondary: {
-          DEFAULT: "#0b7feb"
-        },
-        accent: {
-          DEFAULT: "#2E58A6"
-        },
         warn: {
           ...colors.red,
           DEFAULT: colors.red[600]
@@ -89,8 +80,9 @@ const config = {
         '100': '0 0 100%'
       },
       fontFamily: {
-        sans: ['"Neuropa"', ...defaultTheme.fontFamily.sans],
-        serif: ['"Graphik"', ...defaultTheme.fontFamily.serif],
+        sans: ['"Inter"', ...defaultTheme.fontFamily.sans],
+        heading: ['"Sora"', ...defaultTheme.fontFamily.sans],
+        mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
         inter: ['Inter', 'sans-serif']
       },
       opacity: {
