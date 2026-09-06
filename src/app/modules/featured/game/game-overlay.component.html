@@ -1,0 +1,151 @@
+<div *ngIf="isOpen()" class="fixed inset-x-0 bottom-0 z-40" [style.top.px]="navOffset">
+  <canvas #canvas (pointermove)="onPointerMove($event)" (pointerdown)="onCanvasTap($event)"
+          (pointerup)="onCanvasPointerUp()" (pointerleave)="onCanvasPointerUp()" (pointercancel)="onCanvasPointerUp()"
+          class="block w-full h-full touch-none"></canvas>
+
+  <!-- HUD -->
+  <div class="absolute top-0 inset-x-0 flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 pointer-events-none">
+    <div class="font-mono-ui text-xs sm:text-sm text-secondary flex items-center gap-4 pointer-events-none">
+      <ng-container *ngIf="mode === 'catch'">
+        <span>Score <span class="text-primary font-semibold">{{ score }}s</span></span>
+        <span>Best <span class="text-primary font-semibold">{{ highScore }}s</span></span>
+        <span *ngIf="phase === 'playing'">Features <span class="text-primary font-semibold">{{ featureCount }}</span></span>
+      </ng-container>
+      <ng-container *ngIf="mode === 'run'">
+        <span>Score <span class="text-primary font-semibold">{{ runScore }}s</span></span>
+        <span>Best <span class="text-primary font-semibold">{{ runHighScore }}s</span></span>
+      </ng-container>
+    </div>
+    <button type="button" (click)="close()"
+            class="focus-ring pointer-events-auto flex items-center justify-center h-9 w-9 rounded-full border border-subtle text-secondary hover:text-accent hover:border-subtle-strong transition-colors duration-200"
+            style="background-color: var(--bg-glass);"
+            aria-label="Close game">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Touch controls (Dodge Run only): explicit Left/Right/Duck/Jump
+       buttons instead of inferring the action from where on the screen a
+       tap lands - a thumb's natural tap position varies too much for that
+       to be reliable (that's what caused jump/duck to misfire before).
+       Lifted clear of the bottom safe-area inset so phone browser chrome
+       (URL bar, home indicator) never covers or eats a tap. -->
+  <div *ngIf="mode === 'run' && runPhase === 'playing'"
+       class="sm:hidden absolute inset-x-4 z-10 flex items-end justify-between"
+       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);">
+    <div class="flex gap-3">
+      <button type="button"
+              (pointerdown)="onRunMoveStart('ArrowLeft', $event)" (pointerup)="onRunMoveEnd('ArrowLeft')"
+              (pointerleave)="onRunMoveEnd('ArrowLeft')" (pointercancel)="onRunMoveEnd('ArrowLeft')"
+              class="focus-ring grid place-items-center h-16 w-16 rounded-full border border-subtle text-primary text-2xl touch-none"
+              style="background-color: var(--bg-glass); backdrop-filter: blur(6px);"
+              aria-label="Move left">&#8592;</button>
+      <button type="button"
+              (pointerdown)="onRunMoveStart('ArrowRight', $event)" (pointerup)="onRunMoveEnd('ArrowRight')"
+              (pointerleave)="onRunMoveEnd('ArrowRight')" (pointercancel)="onRunMoveEnd('ArrowRight')"
+              class="focus-ring grid place-items-center h-16 w-16 rounded-full border border-subtle text-primary text-2xl touch-none"
+              style="background-color: var(--bg-glass); backdrop-filter: blur(6px);"
+              aria-label="Move right">&#8594;</button>
+    </div>
+
+    <div class="flex items-end gap-3">
+      <button type="button" (pointerdown)="onDuckButton($event)"
+              class="focus-ring grid place-items-center h-16 w-16 rounded-full border border-subtle text-primary font-heading font-bold text-xs touch-none"
+              style="background-color: var(--bg-glass); backdrop-filter: blur(6px);"
+              aria-label="Duck">DUCK</button>
+      <button type="button" (pointerdown)="onJumpButton($event)"
+              class="focus-ring grid place-items-center h-20 w-20 rounded-full border border-subtle font-heading font-bold text-xs touch-none"
+              style="background-color: var(--accent); color: var(--bg); backdrop-filter: blur(6px);"
+              aria-label="Jump">JUMP</button>
+    </div>
+  </div>
+
+  <!-- Game picker -->
+  <div *ngIf="mode === 'select'"
+       class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center px-6"
+       style="background-color: var(--bg-glass); backdrop-filter: blur(6px);">
+    <span class="panel-label">Mini games</span>
+    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-primary">Pick a game</h2>
+
+    <div class="flex flex-col sm:flex-row gap-3 mt-2 w-full max-w-lg">
+      <button type="button" (click)="selectGame('catch')"
+              class="tile focus-ring flex-1 p-5 text-left transition-transform duration-200 hover:scale-[1.02]">
+        <span class="font-heading text-base font-semibold text-primary block">Catch the Feature</span>
+        <span class="text-secondary text-xs sm:text-sm mt-1 block">Steer bouncing features clear of the bugs.</span>
+      </button>
+      <button type="button" (click)="selectGame('run')"
+              class="tile focus-ring flex-1 p-5 text-left transition-transform duration-200 hover:scale-[1.02]">
+        <span class="font-heading text-base font-semibold text-primary block">Dodge Run</span>
+        <span class="text-secondary text-xs sm:text-sm mt-1 block">Jump and duck your way past the bugs.</span>
+      </button>
+    </div>
+
+    <button type="button" (click)="close()"
+            class="focus-ring text-xs sm:text-sm text-muted hover:text-secondary transition-colors duration-200 mt-1">
+      Back to portfolio
+    </button>
+  </div>
+
+  <!-- Catch the Feature: idle / game-over overlay -->
+  <div *ngIf="mode === 'catch' && phase !== 'playing'"
+       class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center px-6"
+       style="background-color: var(--bg-glass); backdrop-filter: blur(6px);">
+    <span class="panel-label">Mini game</span>
+    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-primary max-w-md">Keep the Features Bouncing</h2>
+
+    <p *ngIf="phase === 'over'" class="text-secondary text-base sm:text-lg">
+      Game over — survived <span class="text-primary font-semibold">{{ score }}s</span>
+    </p>
+    <p *ngIf="phase === 'idle'" class="text-secondary max-w-sm text-sm sm:text-base leading-relaxed">
+      Move the paddle with your mouse, finger, or arrow keys to keep every
+      <span class="text-accent font-semibold">feature ball</span> bouncing and clear of the falling
+      <span class="font-semibold" style="color:#ef4444">bugs</span>. Let a feature fall, catch a
+      bug with the paddle, or let a feature touch a bug, and it's game over. Catching a feature
+      dead-center on the paddle sends it a bit higher. A reflective stick appears now and then -
+      it stays put until a feature bounces off it. More features join the longer you survive.
+    </p>
+
+    <button type="button" (click)="start()"
+            class="focus-ring rounded-full px-6 py-2.5 text-sm sm:text-base font-semibold transition-transform duration-200 hover:scale-105"
+            style="background-color: var(--accent); color: var(--bg);">
+      {{ phase === 'over' ? 'Play again' : 'Start' }}
+    </button>
+
+    <button type="button" (click)="backToMenu()"
+            class="focus-ring text-xs sm:text-sm text-muted hover:text-secondary transition-colors duration-200 mt-1">
+      Choose another game
+    </button>
+  </div>
+
+  <!-- Dodge Run: idle / game-over overlay -->
+  <div *ngIf="mode === 'run' && runPhase !== 'playing'"
+       class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center px-6"
+       style="background-color: var(--bg-glass); backdrop-filter: blur(6px);">
+    <span class="panel-label">Mini game</span>
+    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-primary max-w-md">Dodge Run</h2>
+
+    <p *ngIf="runPhase === 'over'" class="text-secondary text-base sm:text-lg">
+      Game over — survived <span class="text-primary font-semibold">{{ runScore }}s</span>
+    </p>
+    <p *ngIf="runPhase === 'idle'" class="text-secondary max-w-sm text-sm sm:text-base leading-relaxed">
+      Space or <span class="font-semibold">↑</span> jumps over ground bugs.
+      <span class="font-semibold">↓</span> ducks under flying bugs.
+      <span class="font-semibold">← →</span> shift you left or right to fine-tune the timing.
+      On touch, use the Jump, Duck, and Left/Right buttons. Miss the right move and it's game
+      over - the track gets faster the longer you last.
+    </p>
+
+    <button type="button" (click)="startRun()"
+            class="focus-ring rounded-full px-6 py-2.5 text-sm sm:text-base font-semibold transition-transform duration-200 hover:scale-105"
+            style="background-color: var(--accent); color: var(--bg);">
+      {{ runPhase === 'over' ? 'Play again' : 'Start' }}
+    </button>
+
+    <button type="button" (click)="backToMenu()"
+            class="focus-ring text-xs sm:text-sm text-muted hover:text-secondary transition-colors duration-200 mt-1">
+      Choose another game
+    </button>
+  </div>
+</div>

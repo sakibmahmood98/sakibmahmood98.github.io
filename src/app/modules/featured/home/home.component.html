@@ -138,6 +138,64 @@
     </div>
   </section>
 
+  <!-- ============ Writing: horizontal scroll strip of Medium posts ============
+  Temporarily disabled - uncomment to bring back.
+  <section id="writing" class="mt-4 sm:mt-5 scroll-mt-24">
+    <div class="flex items-end justify-between mb-4">
+      <span class="panel-label">Writing</span>
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:flex items-center gap-2">
+          <button type="button" (click)="scrollBlog(-1)" [disabled]="!canScrollBlogLeft"
+                  class="focus-ring flex items-center justify-center h-8 w-8 rounded-full border border-subtle text-secondary hover:text-accent hover:border-subtle-strong transition-colors duration-200 disabled:opacity-30 disabled:pointer-events-none"
+                  aria-label="Scroll posts left">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button type="button" (click)="scrollBlog(1)" [disabled]="!canScrollBlogRight"
+                  class="focus-ring flex items-center justify-center h-8 w-8 rounded-full border border-subtle text-secondary hover:text-accent hover:border-subtle-strong transition-colors duration-200 disabled:opacity-30 disabled:pointer-events-none"
+                  aria-label="Scroll posts right">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+        <a href="https://medium.com/@sakibmahmood09" target="_blank" rel="noreferrer noopener"
+           class="focus-ring group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-secondary hover:text-accent transition-colors duration-200">
+          Read on Medium
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1"
+               fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div #blogStrip appDragScroll (scroll)="updateBlogScrollState()"
+         class="flex gap-4 overflow-x-auto snap-x pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
+      <a *ngFor="let post of blogPosts" [href]="post.url" target="_blank" rel="noreferrer noopener"
+         appSpotlight
+         class="tile snap-start shrink-0 w-[78vw] sm:w-80 p-5 sm:p-6 flex flex-col">
+        <div class="flex items-start justify-between gap-3">
+          <span class="font-mono-ui text-xs text-accent bg-[var(--accent-soft)] border border-subtle rounded-full px-2.5 py-1">
+            {{ post.publishedOn }}
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17" />
+          </svg>
+        </div>
+        <h3 class="mt-8 font-heading text-sm sm:text-base font-semibold text-primary leading-snug line-clamp-3">
+          {{ post.title }}
+        </h3>
+        <p class="text-secondary text-xs sm:text-sm mt-3 leading-relaxed line-clamp-3">{{ post.excerpt }}</p>
+        <div class="flex flex-wrap gap-1.5 mt-auto pt-6">
+          <span *ngFor="let tag of post.tags" class="chip text-[10px] sm:text-xs px-2 py-0.5">{{ tag }}</span>
+        </div>
+      </a>
+    </div>
+  </section>
+  -->
+
   <!-- ============ Experience & education panels ============ -->
   <div class="mt-4 sm:mt-5">
     <app-experience></app-experience>
