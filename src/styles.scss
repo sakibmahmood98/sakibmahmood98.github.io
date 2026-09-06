@@ -212,11 +212,12 @@ body,
   button.tile {
     cursor: pointer;
   }
-  /* The Work strip's cards sit over a flat background (nothing worth blurring behind
-     them), and backdrop-filter here was intermittently showing a stray seam near the
-     top edge on first paint (a known Chromium backdrop-filter compositing glitch).
-     Dropping it removes the risk with no visual loss. */
-  #work .tile {
+  /* The Work/Writing strips' cards sit over a flat background (nothing worth
+     blurring behind them), and backdrop-filter here was intermittently showing a
+     stray seam near the top edge on first paint (a known Chromium backdrop-filter
+     compositing glitch). Dropping it removes the risk with no visual loss. */
+  #work .tile,
+  #writing .tile {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -225,10 +226,12 @@ body,
      against the still-dark rest of the edge - it looks like a stray line "cutting"
      the top rather than a full outline. Give these cards a border strong enough to
      read uniformly all the way around regardless of the glow underneath it. */
-  #work .tile:hover {
+  #work .tile:hover,
+  #writing .tile:hover {
     border-color: rgba(148, 163, 184, 0.4);
   }
-  html.light #work .tile:hover {
+  html.light #work .tile:hover,
+  html.light #writing .tile:hover {
     border-color: rgba(30, 41, 59, 0.32);
   }
   .tile::before {
@@ -254,8 +257,9 @@ body,
   /* On fractional-DPI displays, animating `transform` on a rounded, clipped,
      isolated element promotes/demotes its GPU compositing layer mid-transition,
      which can leave a persistent hairline seam a few px inside the top edge.
-     The Work cards don't need the lift - drop it there to remove the trigger. */
-  #work a.tile:hover {
+     The Work/Writing cards don't need the lift - drop it there to remove the trigger. */
+  #work a.tile:hover,
+  #writing a.tile:hover {
     transform: none;
   }
 

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { NgForOf, NgIf } from '@angular/common';
 import { ThemeService } from '../../../shared/theme.service';
+import { GameStateService } from '../../../shared/game-state.service';
 import { EMAIL } from '../../../shared/social-links.data';
 
 @Component({
@@ -16,11 +17,13 @@ import { EMAIL } from '../../../shared/social-links.data';
 })
 export class NavComponent {
   readonly theme = inject(ThemeService);
+  readonly gameState = inject(GameStateService);
   private readonly router = inject(Router);
   readonly email = EMAIL;
 
   jumpLinks = [
     { id: 'work', href: '#work', text: 'Work' },
+    // { id: 'writing', href: '#writing', text: 'Writing' }, // Writing section temporarily disabled
     { id: 'experience', href: '#experience', text: 'Experience' },
     { id: 'education', href: '#education', text: 'Education' },
   ];

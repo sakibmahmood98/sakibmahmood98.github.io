@@ -10,6 +10,7 @@ import { SpotlightDirective } from '../../../shared/spotlight.directive';
 import { DragScrollDirective } from '../../../shared/drag-scroll.directive';
 import { PROJECTS } from '../projects/projects.data';
 import { annotateExperienceDurations, earliestStartDate, EXPERIENCES } from '../experience/experience.data';
+import { BLOG_POSTS } from '../blog/blogs.data';
 import { EMAIL, SOCIAL_LINKS } from '../../../shared/social-links.data';
 
 @Component({
@@ -36,10 +37,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   canScrollWorkLeft = false;
   canScrollWorkRight = false;
 
+  @ViewChild('blogStrip') blogStrip?: ElementRef<HTMLElement>;
+  canScrollBlogLeft = false;
+  canScrollBlogRight = false;
+
   readonly email = EMAIL;
   readonly socialLinks = SOCIAL_LINKS;
   readonly allProjects = PROJECTS;
   readonly projectCount = PROJECTS.length;
+  readonly blogPosts = BLOG_POSTS;
   readonly focusAreas = ['.NET', 'Angular', 'Microservices', 'System Design', 'Competitive Programming'];
   readonly domains = ['Sales enablement', 'Logistics', 'Ticketing', 'IoT', 'Generative AI'];
 
@@ -73,7 +79,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     // Deferred a tick so the initial disabled-state update doesn't land in the
     // same change-detection pass that just checked it (ExpressionChangedAfterItHasBeenCheckedError).
-    setTimeout(() => this.updateWorkScrollState());
+    setTimeout(() => {
+      this.updateWorkScrollState();
+      this.updateBlogScrollState();
+    });
   }
 
   ngOnDestroy(): void {
@@ -95,6 +104,21 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     const maxScroll = el.scrollWidth - el.clientWidth;
     this.canScrollWorkLeft = el.scrollLeft > 4;
     this.canScrollWorkRight = el.scrollLeft < maxScroll - 4;
+  }
+
+  scrollBlog(direction: 1 | -1): void {
+    const el = this.blogStrip?.nativeElement;
+    if (!el) return;
+    const cardWidth = el.querySelector('a')?.clientWidth ?? el.clientWidth;
+    el.scrollBy({ left: direction * (cardWidth + 16), behavior: 'smooth' });
+  }
+
+  updateBlogScrollState(): void {
+    const el = this.blogStrip?.nativeElement;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    this.canScrollBlogLeft = el.scrollLeft > 4;
+    this.canScrollBlogRight = el.scrollLeft < maxScroll - 4;
   }
 
   private updateClock(): void {
